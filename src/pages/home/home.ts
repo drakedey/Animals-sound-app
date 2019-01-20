@@ -14,6 +14,18 @@ export class HomePage {
     this.animales = ANIMALES.splice(0);
   }
 
+  reproducir(animal: Animal) {
+    const audio = new Audio;
+    audio.src = animal.audio;
+    audio.load();
+    audio.play();
+    animal.reproduciendo = true;
+
+    setTimeout(() => {
+      animal.reproduciendo = false;
+    }, animal.duracion * 1000);
+  }
+
 
 
 }
