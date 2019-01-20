@@ -9,21 +9,38 @@ import { Animal } from '../../interfaces/animal.interface';
   templateUrl: 'home.html'
 })
 export class HomePage {
-  animales: Animal[] = []
+  animales: Animal[] = [];
+  audioReproduciendo = new Audio();
+  audioTiempo: any;
   constructor(public navCtrl: NavController) {
     this.animales = ANIMALES.splice(0);
   }
 
   reproducir(animal: Animal) {
-    const audio = new Audio;
-    audio.src = animal.audio;
-    audio.load();
-    audio.play();
+    this.pausarAudio(animal);
+    if (animal.reproduciendo) {
+      animal.reproduciendo = false;
+      return;
+    }
+    this.audioReproduciendo.src = animal.audio;
+    this.audioReproduciendo.load();
+    this.audioReproduciendo.play();
     animal.reproduciendo = true;
 
-    setTimeout(() => {
+    this.audioTiempo = setTimeout(() => {
       animal.reproduciendo = false;
     }, animal.duracion * 1000);
+  }
+
+  private pausarAudio(animalSelected: Animal) {
+    clearInterval(this.audioTiempo);
+    this.audioReproduciendo.pause();
+    this.animales.forEach((animal) => {
+      const { nombre } = animalSelected;
+      if (animal.nombre !== nombre) {
+        animal.reproduciendo = false;
+      }
+    });
   }
 
 
