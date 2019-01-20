@@ -32,6 +32,10 @@ export class HomePage {
     }, animal.duracion * 1000);
   }
 
+  eliminarAnimal(idx: number) {
+    this.animales.splice(idx, 1);
+  }
+
   private pausarAudio(animalSelected: Animal) {
     clearInterval(this.audioTiempo);
     this.audioReproduciendo.pause();
